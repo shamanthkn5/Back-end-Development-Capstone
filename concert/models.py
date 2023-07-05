@@ -1,17 +1,14 @@
 from datetime import datetime
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 
-# Create your models here.
-
 class Concert(models.Model):
-    # concert_name
-    # duration
-    # city
-    # date
+    concert_name = models.CharField(max_length=255)
+    duration = models.IntegerField()
+    city = models.CharField(max_length=255)
+    date = models.DateField(default=datetime.now)
 
     def __str__(self):
         return self.concert_name
@@ -23,9 +20,7 @@ class ConcertAttending(models.Model):
         NOT_ATTENDING = "Not Attending", _("Not Attending")
         ATTENDING = "Attending", _("Attending")
 
-    concert = models.ForeignKey(
-        Concert, null=True, on_delete=models.CASCADE, related_name="attendee"
-    )
+    concert = models.ForeignKey(Concert, null=True, on_delete=models.CASCADE, related_name="attendee")
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     attending = models.CharField(
         max_length=100,
@@ -41,12 +36,12 @@ class ConcertAttending(models.Model):
 
 
 class Photo(models.Model):
-    # id
-    # pic_url
-    # event_country
-    # event_state
-    # event_city
-    # event_date
+    id = models.IntegerField(primary_key=True)
+    pic_url = models.CharField(max_length=1000)
+    event_country = models.CharField(max_length=255)
+    event_state = models.CharField(max_length=255)
+    event_city = models.CharField(max_length=255)
+    event_date = models.DateField(default=datetime.now)
 
     class Meta:
         managed = False
@@ -56,9 +51,9 @@ class Photo(models.Model):
 
 
 class Song(models.Model):
-    # id
-    # title
-    # lyrics
+    id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=255)
+    lyrics = models.TextField()
 
     class Meta:
         managed = False
